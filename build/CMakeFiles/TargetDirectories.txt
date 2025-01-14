@@ -1,0 +1,5 @@
+/home/judehommel/Projects/c/build/CMakeFiles/funcs.dir
+/home/judehommel/Projects/c/build/CMakeFiles/calc.dir
+/home/judehommel/Projects/c/build/CMakeFiles/sudoku.dir
+/home/judehommel/Projects/c/build/CMakeFiles/edit_cache.dir
+/home/judehommel/Projects/c/build/CMakeFiles/rebuild_cache.dir
