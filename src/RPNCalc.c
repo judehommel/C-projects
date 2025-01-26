@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
             }
         } else if (strcmp(op, "h") == 0 || strcmp(op, "help") == 0) {
             printf("\tCommands\n\n");
-            printf("+ : addition\t\t\t\t\t- : subtraction\n* : multiplication\t\t\t\t/ : division\n% : modulation\n^ or pow : exponent\t\t\t\t");
+            printf("+ : addition\t\t\t\t\t- : subtraction\n* : multiplication\t\t\t\t/ : division\n%% : modulation\n^ or pow : exponent\t\t\t\t");
             printf("e or exp : natural exponent\nsin : sine\t\t\t\t\tcos : cosine\npi : pi operand\ns or swap : swaps most recent operands\nd or duplicate : dupes most recent operand\nc or clear : clears the stack\t\t\th or help : shows this menu\n");
             printf("\nType any number to add it to the stack -->");
         } else {

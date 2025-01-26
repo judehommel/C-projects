@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
 
 char inputBoard[9][9];
 
 void printBoard(char inputBoard[9][9], int x, int y);
-int bruteForceSolver(char b[9][9]);
+int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack);
 
 int main(int argc, char *argv[]) {
     for (int i=0; i<9; i++) {
@@ -18,21 +20,23 @@ int main(int argc, char *argv[]) {
     printBoard(inputBoard, 0, 0); 
     for (int i=0; i<9; i++) {
         for (int j=0; j<9; j++) {
-            // skip '\n'
+            // Skip '\n'
             c = getchar();
             while ((tmp = getchar()) != '\n')
                 c = tmp;
-            // skip rest of input or next line
+            // Skip rest of input or next line
             if (c == 's' || c == 'n') {
                 break;
             } else if (c == 'b') {
+                // Go back 1 iteration 
                 if (j == 0) {
                     i--;
                     j = 8;
                 } else {
                     j--;
                 }
-
+    
+                // Do it again 
                 if (j == 0) {
                     i--;
                     j = 8;
@@ -60,6 +64,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+
     for (int i=0; i<9; i++) {
         for (int j=0; j<9; j++) {
             if (inputBoard[i][j] != '-') {
@@ -68,102 +73,106 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    if (bruteForceSolver(board)) {
+    if (bruteForceSolver(board, 0, 0, 0)) {
         printBoard(board, -1, -1);
+    } else {
+        fprintf(stderr, "Error: was not able to solve");
     }
 
     return 0;
 }
 
-int checkHor(char b[9][9], int x, int y)
+int isValidBoard(char b[9][9], int x, int y) 
 {
+    if (!isdigit(b[y][x])) {
+        return 0;
+    }
+
+    // Check horizontal nums are different
     for (int hor=0; hor<9; hor++) {
         if (hor != x && b[y][x] == b[y][hor]) {
             return 0;
         }
     }
-    return 1;
-}
 
-int checkVer(char b[9][9], int x, int y)
-{
+    // Check vertical nums are different
     for (int ver=0; ver<9; ver++) {
         if (ver != y && b[y][x] == b[ver][x]) {
             return 0;
         }
     }
+
+    // Check 3x3 nums are different
+    int firstXCell = (x/3)*3;
+    int firstYCell = (y/3)*3;
+    for (int i=firstYCell; i<firstYCell+3; i++) {
+        for (int j=firstXCell; j<firstXCell+3; j++) {
+            if ((i != y && j != x) && b[i][j] == b[y][x]) {
+                return 0;
+            }
+        }
+    }
+
     return 1;
 }
 
-int backtrack(char b[9][9], int* x, int* y)
+int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack) 
 {
-    if (*x == 0 && *y == 0) {
+    if (x > 8 || y > 8) {
+        return 1;
+    }
+    if (x < 0 || y < 0) {
         return 0;
     }
 
-    b[*y][*x] = '0';
-
-    if (*x == 0) {
-        *y = *y - 1;
-        *x = 8;
-    } else {
-        *x = *x - 1;
-    }
-    if (b[*y][*x] != inputBoard[*y][*x]) {
-        b[*y][*x]++;
-        while (!checkHor(b, *x, *y) || !checkVer(b, *x, *y)) {
-            if (b[*y][*x] > '9') {
+    if (b[y][x] != inputBoard[y][x]) {
+        do {
+            // Stop incrementing if num isn't a digit
+            if (!isdigit(b[y][x])) {
                 break;
             }
-            b[*y][*x]++;
+            b[y][x]++;
+        }
+        while (!isValidBoard(b, x, y)); 
+    }
+
+    if (!isValidBoard(b, x, y) || storedBacktrack) {
+        if (b[y][x] != inputBoard[y][x]) {
+            b[y][x] = '0';
+        }
+        x--;
+        if (x < 0) {
+            y--;
+            x = 8;
+        }
+
+        if (b[y][x] == inputBoard[y][x]) {
+            storedBacktrack = 1;
+        } else {
+            storedBacktrack = 0;
+        }
+    } else {
+        x++;
+        if (x > 8) {
+            y++;
+            x = 0;
         }
     }
-
-    if (b[*y][*x] > '9' || !checkVer(b, *x, *y) || !checkHor(b, *x, *y)) {
-        return backtrack(b, x, y);
+    if (bruteForceSolver(b, x, y, storedBacktrack)) {
+        return 1;
     }
-    return 1;
+    
+    return 0;
 }
 
-int bruteForceSolver(char b[9][9]) 
-{
-    for (int i=0; i<9; i++) {
-        for (int j=0; j<9; j++) {
-            if (b[i][j] != inputBoard[i][j]) {
-                if (b[i][j] == '0') {
-                    b[i][j] = '1';
-                }
-
-                while (!checkHor(b, j, i) || !checkVer(b, j, i)) {
-                    if (b[i][j] > '9') {
-                        break;
-                    }
-                    b[i][j]++;
-                }
-
-                if (b[i][j] > '9' || !checkVer(b, j, i) || !checkHor(b, j, i)) {
-                    if (!backtrack(b, &j, &i)) {
-                        fprintf(stderr, "Error: Sudoku not solvable\n");
-                        return 0;
-                    }
-                }
-            }
-        }
-    }
-    return 1;
-}
-
-#define BOLD  "\e[1m"
-#define BDEND "\e[m"
-#define GREEN "\033[0;32m" 
+#define BOLD  "\033[1m"
+#define BDEND "\033[m"
+#define GREEN "\033[0;32m"
 #define GREND "\033[0;37m"
 
 void printBoard(char b[9][9], int x, int y) 
 {
     printf("\n");
-
-    char* horBoard = "| %c %c %c | %c %c %c | %c %c %c |\n";
-    char* boldPos;
 
     for(int i=0; i<9; i++) {
         if((i) % 3 == 0) {
