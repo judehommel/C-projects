@@ -92,6 +92,13 @@ all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/judehommel/Projects/c/build/CMakeFiles 0
 .PHONY : all
 
+# The main codegen target
+codegen: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/judehommel/Projects/c/build/CMakeFiles /home/judehommel/Projects/c/build//CMakeFiles/progress.marks
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 codegen
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/judehommel/Projects/c/build/CMakeFiles 0
+.PHONY : codegen
+
 # The main clean target
 clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
@@ -155,6 +162,19 @@ sudoku/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sudoku.dir/build.make CMakeFiles/sudoku.dir/build
 .PHONY : sudoku/fast
 
+#=============================================================================
+# Target rules for targets named brainfuck
+
+# Build rule for target.
+brainfuck: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 brainfuck
+.PHONY : brainfuck
+
+# fast build rule for target.
+brainfuck/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brainfuck.dir/build.make CMakeFiles/brainfuck.dir/build
+.PHONY : brainfuck/fast
+
 src/RPNCalc.o: src/RPNCalc.c.o
 .PHONY : src/RPNCalc.o
 
@@ -178,6 +198,30 @@ src/RPNCalc.s: src/RPNCalc.c.s
 src/RPNCalc.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calc.dir/build.make CMakeFiles/calc.dir/src/RPNCalc.c.s
 .PHONY : src/RPNCalc.c.s
+
+src/brainfuck_interpreter.o: src/brainfuck_interpreter.c.o
+.PHONY : src/brainfuck_interpreter.o
+
+# target to build an object file
+src/brainfuck_interpreter.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brainfuck.dir/build.make CMakeFiles/brainfuck.dir/src/brainfuck_interpreter.c.o
+.PHONY : src/brainfuck_interpreter.c.o
+
+src/brainfuck_interpreter.i: src/brainfuck_interpreter.c.i
+.PHONY : src/brainfuck_interpreter.i
+
+# target to preprocess a source file
+src/brainfuck_interpreter.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brainfuck.dir/build.make CMakeFiles/brainfuck.dir/src/brainfuck_interpreter.c.i
+.PHONY : src/brainfuck_interpreter.c.i
+
+src/brainfuck_interpreter.s: src/brainfuck_interpreter.c.s
+.PHONY : src/brainfuck_interpreter.s
+
+# target to generate assembly for a file
+src/brainfuck_interpreter.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/brainfuck.dir/build.make CMakeFiles/brainfuck.dir/src/brainfuck_interpreter.c.s
+.PHONY : src/brainfuck_interpreter.c.s
 
 src/random_functions.o: src/random_functions.c.o
 .PHONY : src/random_functions.o
@@ -233,14 +277,19 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... codegen"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... brainfuck"
 	@echo "... calc"
 	@echo "... funcs"
 	@echo "... sudoku"
 	@echo "... src/RPNCalc.o"
 	@echo "... src/RPNCalc.i"
 	@echo "... src/RPNCalc.s"
+	@echo "... src/brainfuck_interpreter.o"
+	@echo "... src/brainfuck_interpreter.i"
+	@echo "... src/brainfuck_interpreter.s"
 	@echo "... src/random_functions.o"
 	@echo "... src/random_functions.i"
 	@echo "... src/random_functions.s"

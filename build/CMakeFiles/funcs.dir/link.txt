@@ -1,1 +1,1 @@
-/usr/bin/cc -rdynamic -Wl,--dependency-file=CMakeFiles/funcs.dir/link.d CMakeFiles/funcs.dir/src/random_functions.c.o -o funcs  -lm
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/funcs.dir/link.d CMakeFiles/funcs.dir/src/random_functions.c.o -o funcs  -lm

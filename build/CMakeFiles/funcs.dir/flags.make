@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = 
 
-C_FLAGS = -Werror -Wall -Wpedantic
+C_FLAGS = -Wall -Werror -Wpedantic
 

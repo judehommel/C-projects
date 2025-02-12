@@ -1,1 +1,1 @@
-/usr/bin/cc -rdynamic -Wl,--dependency-file=CMakeFiles/sudoku.dir/link.d CMakeFiles/sudoku.dir/src/sudoku_solver.c.o -o sudoku  -lm
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/sudoku.dir/link.d CMakeFiles/sudoku.dir/src/sudoku_solver.c.o -o sudoku  -lm

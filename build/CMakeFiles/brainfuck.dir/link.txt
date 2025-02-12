@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/brainfuck.dir/link.d CMakeFiles/brainfuck.dir/src/brainfuck_interpreter.c.o -o brainfuck  -lm

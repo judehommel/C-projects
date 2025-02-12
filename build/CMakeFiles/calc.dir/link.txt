@@ -1,1 +1,1 @@
-/usr/bin/cc -rdynamic -Wl,--dependency-file=CMakeFiles/calc.dir/link.d CMakeFiles/calc.dir/src/RPNCalc.c.o -o calc  -lm
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/calc.dir/link.d CMakeFiles/calc.dir/src/RPNCalc.c.o -o calc  -lm
