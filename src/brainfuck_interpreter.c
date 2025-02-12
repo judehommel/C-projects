@@ -70,19 +70,17 @@ int main(int argc, char *argv[])
                 }
                 break;
             case '<':
-                ptr--;
-                if (ptr < start) {
-                    ptr = start + STACK_SIZE;
+                if (--ptr < start) {
+                    ptr += STACK_SIZE;
                 }
                 break;
             case '>':
-                ptr++;
-                if (ptr > start + STACK_SIZE) {
-                    ptr = start;
+                if (++ptr > start + STACK_SIZE) {
+                    ptr -= STACK_SIZE;
                 }
                 break;
             case '.':
-                printf("%c", *ptr);
+                putchar(*ptr);
                 break;
             case ',':
                 *ptr = getchar();
@@ -90,6 +88,13 @@ int main(int argc, char *argv[])
             case '[':
                 if (*ptr > 0) {
                     loops[loopsIndex++] = i;
+                } else {
+                    int loop_depth = 1;
+                    while (loop_depth > 0) {
+                        i++;
+                        if (code[i] == '[') loop_depth++;
+                        if (code[i] == ']') loop_depth--;
+                    }
                 }
                 break;
             case ']':
