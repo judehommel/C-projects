@@ -173,6 +173,7 @@ int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack)
 void printBoard(char b[9][9], int x, int y) 
 {
     printf("\n");
+    printf("Input numbers\nPress Enter to skip a space\nb-Back s-Solve n-Next Line\n");
 
     for(int i=0; i<9; i++) {
         if((i) % 3 == 0) {
