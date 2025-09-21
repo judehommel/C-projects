@@ -6,7 +6,7 @@
 char inputBoard[9][9];
 
 void printBoard(char inputBoard[9][9], int x, int y);
-int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack);
+int bruteForceSolver(char b[9][9], int x, int y, int shouldSkipInput);
 
 int main(int argc, char *argv[]) {
     for (int i=0; i<9; i++) {
@@ -103,8 +103,8 @@ int isValidBoard(char b[9][9], int x, int y)
     }
 
     // Check 3x3 nums are different
-    int firstXCell = (x/3)*3;
-    int firstYCell = (y/3)*3;
+    int firstXCell = (int)(x/3)*3;
+    int firstYCell = (int)(y/3)*3;
     for (int i=firstYCell; i<firstYCell+3; i++) {
         for (int j=firstXCell; j<firstXCell+3; j++) {
             if ((i != y && j != x) && b[i][j] == b[y][x]) {
@@ -116,12 +116,12 @@ int isValidBoard(char b[9][9], int x, int y)
     return 1;
 }
 
-int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack) 
+int bruteForceSolver(char b[9][9], int x, int y, int shouldSkipInput) 
 {
     if (x > 8 || y > 8) {
         return 1;
     }
-    if (x < 0 || y < 0) {
+    if (y < 0) {
         return 0;
     }
 
@@ -132,11 +132,10 @@ int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack)
                 break;
             }
             b[y][x]++;
-        }
-        while (!isValidBoard(b, x, y)); 
+        } while (!isValidBoard(b, x, y)); 
     }
 
-    if (!isValidBoard(b, x, y) || storedBacktrack) {
+    if (!isValidBoard(b, x, y) || shouldSkipInput) {
         if (b[y][x] != inputBoard[y][x]) {
             b[y][x] = '0';
         }
@@ -147,9 +146,9 @@ int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack)
         }
 
         if (b[y][x] == inputBoard[y][x]) {
-            storedBacktrack = 1;
+            shouldSkipInput = 1;
         } else {
-            storedBacktrack = 0;
+            shouldSkipInput = 0;
         }
     } else {
         x++;
@@ -158,7 +157,7 @@ int bruteForceSolver(char b[9][9], int x, int y, int storedBacktrack)
             x = 0;
         }
     }
-    if (bruteForceSolver(b, x, y, storedBacktrack)) {
+    if (bruteForceSolver(b, x, y, shouldSkipInput)) {
         return 1;
     }
     
